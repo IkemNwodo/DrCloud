@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.drcloud.databinding.ActivityMainBinding
+import io.agora.rtc.Constants
 import io.agora.rtc.IRtcEngineEventHandler
 import io.agora.rtc.RtcEngine
 import io.agora.rtc.internal.EncryptionConfig
@@ -117,6 +118,9 @@ class MainActivity : AppCompatActivity() {
         initializeAgoraEngine()
         setupVideoProfile()
         setUpLocalVideo()
+
+        // change audio profile for a better experience
+        mRtcEngine!!.setAudioProfile(Constants.AUDIO_PROFILE_MUSIC_HIGH_QUALITY_STEREO, Constants.AUDIO_SCENARIO_GAME_STREAMING);
         joinChannel()
     }
 
@@ -182,6 +186,7 @@ class MainActivity : AppCompatActivity() {
         // Initializes the local video view.
         // RENDER_MODE_FIT: Uniformly scale the video until one of its dimension fits the boundary. Areas that are not filled due to the disparity in the aspect ratio are filled with black.
         mRtcEngine!!.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0))
+
         mRtcEngine!!.startPreview()
     }
 
