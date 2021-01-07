@@ -175,7 +175,8 @@ class MainActivity : AppCompatActivity() {
     private fun setUpLocalVideo() {
         val container = binding.localVideo
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
-        surfaceView.clipToOutline = true
+        surfaceView.setZOrderMediaOverlay(true)
+
         //surfaceView.background = ContextCompat.getDrawable(applicationContext, R.drawable.local_video_drawable)
         container.addView(surfaceView)
         // Initializes the local video view.
