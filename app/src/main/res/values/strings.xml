@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DrCloud</string>
+
+    <string name="agora_app_id">4855a175bc884b3b880d42f6aae7c888</string>
+    <string name="agora_access_token">0064855a175bc884b3b880d42f6aae7c888IAAHikYhU0/CCmQJqXI4FmaGLeI7MwcG2nP/tWDDwrJU10bOAL0AAAAAEACyc3BiGU73XwEAAQAZTvdf</string>
+    <string name="agora_encryption_key">864e224890a446a19db9e171b7f26486</string>
+
+    <string name="channel_name">Channel Name</string>
+    <string name="join_call">Join Call</string>
+</resources>
