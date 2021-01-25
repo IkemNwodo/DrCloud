@@ -6,26 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/remoteVideo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal" />
 
     <FrameLayout
         android:id="@+id/localVideo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintDimensionRatio="2:3"
-        app:layout_constraintEnd_toStartOf="@id/guideline2"
-        app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/local_video_drawable"
+        app:layout_constraintBottom_toTopOf="@+id/btn_container"
+        app:layout_constraintDimensionRatio=""
+        app:layout_constraintEnd_toStartOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remoteVideo"
+        tools:ignore="MissingConstraints" />
+
+    <FrameLayout
+        android:id="@+id/remoteVideo2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/local_video_drawable"
+        app:layout_constraintBottom_toTopOf="@+id/btn_container"
+        app:layout_constraintDimensionRatio=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/localVideo"
+        app:layout_constraintTop_toBottomOf="@+id/remoteVideo"
         tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -40,41 +53,56 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.45" />
+        app:layout_constraintGuide_percent="0.50" />
 
-    <ImageView
-        android:id="@+id/audio"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_container"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
+        android:background="@color/purple_200"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="2:1"
-        app:layout_constraintEnd_toStartOf="@+id/end_call"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/voice" />
-
-    <ImageView
-        android:id="@+id/end_call"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="32dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/video"
-        app:layout_constraintStart_toEndOf="@id/audio"
-        app:srcCompat="@drawable/btn_end_img" />
-
-    <ImageView
-        android:id="@+id/video"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:srcCompat="@drawable/video"
-        android:layout_marginBottom="32dp"
+        app:layout_constraintDimensionRatio="4:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/end_call"
-        app:layout_constraintDimensionRatio="2:1"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/audio"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_container"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toStartOf="@+id/end_call"
+            app:layout_constraintStart_toStartOf="@id/btn_container"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/voice" />
+
+        <ImageView
+            android:id="@+id/end_call"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/btn_container"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toStartOf="@id/video"
+            app:layout_constraintStart_toEndOf="@id/audio"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/btn_end_img" />
+
+        <ImageView
+            android:id="@+id/video"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_container"
+            app:layout_constraintDimensionRatio="2:1"
+            app:layout_constraintEnd_toEndOf="@id/btn_container"
+            app:layout_constraintStart_toEndOf="@id/end_call"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/video" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -82,4 +110,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70" />
 </androidx.constraintlayout.widget.ConstraintLayout>

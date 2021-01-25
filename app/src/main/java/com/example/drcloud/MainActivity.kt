@@ -242,7 +242,7 @@ class MainActivity : AppCompatActivity() {
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
         container.addView(surfaceView)
         // Initializes the video view of a remote user.
-        mRtcEngine!!.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid))
+        mRtcEngine!!.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FILL, uid))
         surfaceView.tag = uid // for mark purpose
     }
 }
