@@ -2,7 +2,9 @@
     <string name="app_name">DrCloud</string>
 
     <string name="agora_app_id">4855a175bc884b3b880d42f6aae7c888</string>
-    <string name="agora_access_token">0064855a175bc884b3b880d42f6aae7c888IACsScGFc2cfggQdz6tjooU2UpVr0uiFgtGoG8893XgjHUbOAL0AAAAAEAAH/Ych5zIPYAEAAQDnMg9g</string>
+    <string name="agora_access_token">
+        0064855a175bc884b3b880d42f6aae7c888IAAfeM3vv/VDVG7zJcAPhxGZ3Fq16BnU3Suf1feHwMEWfkbOAL0AAAAAEAC0V+LrTdISYAEAAQBO0hJg
+    </string>
     <string name="agora_encryption_key">864e224890a446a19db9e171b7f26486</string>
 
     <string name="channel_name">Channel Name</string>

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
@@ -33,6 +34,10 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
+    lateinit var adapter: RemoteViewAdapter
+
+    //var remoteViewsArray = ArrayList<SurfaceView>()
+
     lateinit var channelName: String
 
     private var mRtcEngine: RtcEngine? = null
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread { setupRemoteVideo(uid) }
         }
         override fun onUserOffline(uid: Int, reason: Int) {
-            runOnUiThread { onRemoteUserLeft() }
+            runOnUiThread { onRemoteUserLeft(uid) }
         }
         override fun onUserMuteVideo(uid: Int, muted: Boolean) {
             runOnUiThread { onRemoteUserVideoMuted(uid, muted) }
@@ -54,6 +59,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        adapter = RemoteViewAdapter(ArrayList<SurfaceView>())
+
+        binding.remoteRv.adapter = adapter
 
         channelName = intent.getStringExtra(CredentialsActivity.CHANNEL_NAME).toString()
 
@@ -181,11 +190,10 @@ class MainActivity : AppCompatActivity() {
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
         surfaceView.setZOrderMediaOverlay(true)
 
-        //surfaceView.background = ContextCompat.getDrawable(applicationContext, R.drawable.local_video_drawable)
         container.addView(surfaceView)
         // Initializes the local video view.
         // RENDER_MODE_FIT: Uniformly scale the video until one of its dimension fits the boundary. Areas that are not filled due to the disparity in the aspect ratio are filled with black.
-        mRtcEngine!!.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, 0))
+        mRtcEngine!!.setupLocalVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FILL, 0))
 
         mRtcEngine!!.startPreview()
     }
@@ -201,7 +209,7 @@ class MainActivity : AppCompatActivity() {
 
         mRtcEngine!!.setVideoEncoderConfiguration(
             VideoEncoderConfiguration(
-                VideoEncoderConfiguration.VD_640x360,
+                VideoEncoderConfiguration.VD_120x120,
             VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
             VideoEncoderConfiguration.STANDARD_BITRATE,
             VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT)
@@ -217,32 +225,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onRemoteUserVideoMuted(uid: Int, muted: Boolean) {
-        val container = binding.remoteVideo
 
-        val surfaceView = container.getChildAt(0) as SurfaceView
+        /*val surfaceView = adapter.surfaceViews.get(uid)
 
-        val tag = surfaceView.tag
+        val tag = surfaceView?.tag
         if (tag != null && tag as Int == uid) {
             surfaceView.visibility = if (muted) View.GONE else View.VISIBLE
-        }
+        }*/
     }
 
-    private fun onRemoteUserLeft() {
-        val container = binding.remoteVideo
-        container.removeAllViews()
+    private fun onRemoteUserLeft(uid: Int) {
+        adapter.surfaceViews.clear()
+        adapter.notifyDataSetChanged()
     }
 
     private fun setupRemoteVideo(uid: Int) {
-        val container = binding.remoteVideo
-
-        if (container.childCount >= 1) {
-            return
-        }
+        //val container = binding.remoteVideo
 
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
-        container.addView(surfaceView)
+
+        adapter.surfaceViews.add(surfaceView)
+        adapter.notifyDataSetChanged()
+
         // Initializes the video view of a remote user.
-        mRtcEngine!!.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FILL, uid))
+        mRtcEngine!!.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid))
         surfaceView.tag = uid // for mark purpose
     }
 }
