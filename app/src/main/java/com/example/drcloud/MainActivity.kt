@@ -32,11 +32,12 @@ class MainActivity : AppCompatActivity() {
         private const val PERMISSION_REQ_ID_CAMERA = PERMISSION_REQ_ID_RECORD_AUDIO + 1
     }
 
+    var containerCounter = 0
+    var remoteViews = HashMap<Int, FrameLayout>()
+
+    var containerList = ArrayList<FrameLayout>(4)
+
     lateinit var binding: ActivityMainBinding
-
-    lateinit var adapter: RemoteViewAdapter
-
-    //var remoteViewsArray = ArrayList<SurfaceView>()
 
     lateinit var channelName: String
 
@@ -60,11 +61,12 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        adapter = RemoteViewAdapter(ArrayList<SurfaceView>())
-
-        binding.remoteRv.adapter = adapter
-
         channelName = intent.getStringExtra(CredentialsActivity.CHANNEL_NAME).toString()
+
+        containerList.add(binding.remoteUser1)
+        containerList.add(binding.remoteUser2)
+        containerList.add(binding.remoteUser3)
+        containerList.add(binding.remoteUser4)
 
         binding.endCall.setOnClickListener { finish() }
         binding.audio.setOnClickListener { onAudioMute() }
@@ -226,26 +228,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun onRemoteUserVideoMuted(uid: Int, muted: Boolean) {
 
-        /*val surfaceView = adapter.surfaceViews.get(uid)
+        val surfaceView = remoteViews.get(uid)
 
         val tag = surfaceView?.tag
         if (tag != null && tag as Int == uid) {
             surfaceView.visibility = if (muted) View.GONE else View.VISIBLE
-        }*/
+        }
     }
 
     private fun onRemoteUserLeft(uid: Int) {
-        adapter.surfaceViews.clear()
-        adapter.notifyDataSetChanged()
+        remoteViews[uid]?.removeAllViews()
     }
 
     private fun setupRemoteVideo(uid: Int) {
-        //val container = binding.remoteVideo
+        val container = containerList.get(containerCounter)
 
         val surfaceView = RtcEngine.CreateRendererView(baseContext)
+        container.addView(surfaceView)
 
-        adapter.surfaceViews.add(surfaceView)
-        adapter.notifyDataSetChanged()
+        remoteViews[uid] = container
+        containerCounter++
 
         // Initializes the video view of a remote user.
         mRtcEngine!!.setupRemoteVideo(VideoCanvas(surfaceView, VideoCanvas.RENDER_MODE_FIT, uid))
